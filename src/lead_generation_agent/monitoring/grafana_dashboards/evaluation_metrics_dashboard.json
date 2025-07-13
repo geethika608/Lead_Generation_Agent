@@ -1,0 +1,377 @@
+{
+  "dashboard": {
+    "id": null,
+    "title": "Evaluation Metrics Dashboard",
+    "tags": ["lead-generation", "crewai", "evaluation", "deepeval"],
+    "style": "dark",
+    "timezone": "browser",
+    "panels": [
+      {
+        "id": 1,
+        "title": "Evaluation Overview",
+        "type": "stat",
+        "targets": [
+          {
+            "expr": "evaluation_count",
+            "legendFormat": "Total Evaluations"
+          },
+          {
+            "expr": "evaluation_pass_count",
+            "legendFormat": "Passed"
+          },
+          {
+            "expr": "evaluation_fail_count",
+            "legendFormat": "Failed"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "palette-classic"
+            },
+            "custom": {
+              "displayMode": "list",
+              "orientation": "horizontal"
+            }
+          }
+        },
+        "gridPos": {
+          "h": 8,
+          "w": 12,
+          "x": 0,
+          "y": 0
+        }
+      },
+      {
+        "id": 2,
+        "title": "Evaluation Pass Rate",
+        "type": "gauge",
+        "targets": [
+          {
+            "expr": "rate(evaluation_pass_count[5m]) / rate(evaluation_count[5m]) * 100",
+            "legendFormat": "Pass Rate %"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "min": 0,
+            "max": 100,
+            "unit": "percent",
+            "thresholds": {
+              "steps": [
+                {"color": "red", "value": 0},
+                {"color": "yellow", "value": 70},
+                {"color": "green", "value": 90}
+              ]
+            }
+          }
+        },
+        "gridPos": {
+          "h": 8,
+          "w": 12,
+          "x": 12,
+          "y": 0
+        }
+      },
+      {
+        "id": 3,
+        "title": "Evaluation Score Distribution",
+        "type": "histogram",
+        "targets": [
+          {
+            "expr": "rate(evaluation_score_bucket[5m])",
+            "legendFormat": "Score"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "min": 0,
+            "max": 1,
+            "custom": {
+              "hideFrom": {
+                "legend": false,
+                "tooltip": false,
+                "vis": false
+              }
+            }
+          }
+        },
+        "gridPos": {
+          "h": 8,
+          "w": 24,
+          "x": 0,
+          "y": 8
+        }
+      },
+      {
+        "id": 4,
+        "title": "Average Evaluation Score",
+        "type": "stat",
+        "targets": [
+          {
+            "expr": "rate(evaluation_score_sum[5m]) / rate(evaluation_score_count[5m])",
+            "legendFormat": "Average Score"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "min": 0,
+            "max": 1,
+            "decimals": 3,
+            "color": {
+              "mode": "palette-classic"
+            },
+            "thresholds": {
+              "steps": [
+                {"color": "red", "value": 0},
+                {"color": "yellow", "value": 0.7},
+                {"color": "green", "value": 0.9}
+              ]
+            }
+          }
+        },
+        "gridPos": {
+          "h": 8,
+          "w": 12,
+          "x": 0,
+          "y": 16
+        }
+      },
+      {
+        "id": 5,
+        "title": "Evaluation Score Percentiles",
+        "type": "stat",
+        "targets": [
+          {
+            "expr": "histogram_quantile(0.5, rate(evaluation_score_bucket[5m]))",
+            "legendFormat": "Median (50th)"
+          },
+          {
+            "expr": "histogram_quantile(0.9, rate(evaluation_score_bucket[5m]))",
+            "legendFormat": "90th Percentile"
+          },
+          {
+            "expr": "histogram_quantile(0.95, rate(evaluation_score_bucket[5m]))",
+            "legendFormat": "95th Percentile"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "min": 0,
+            "max": 1,
+            "decimals": 3,
+            "color": {
+              "mode": "palette-classic"
+            },
+            "custom": {
+              "displayMode": "list",
+              "orientation": "vertical"
+            }
+          }
+        },
+        "gridPos": {
+          "h": 8,
+          "w": 12,
+          "x": 12,
+          "y": 16
+        }
+      },
+      {
+        "id": 6,
+        "title": "Evaluation Score Trends",
+        "type": "timeseries",
+        "targets": [
+          {
+            "expr": "rate(evaluation_score_sum[5m]) / rate(evaluation_score_count[5m])",
+            "legendFormat": "Average Score"
+          },
+          {
+            "expr": "histogram_quantile(0.5, rate(evaluation_score_bucket[5m]))",
+            "legendFormat": "Median Score"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "palette-classic"
+            },
+            "custom": {
+              "drawStyle": "line",
+              "lineInterpolation": "linear",
+              "barAlignment": 0,
+              "lineWidth": 2,
+              "fillOpacity": 10,
+              "gradientMode": "none",
+              "spanNulls": false,
+              "showPoints": "auto",
+              "pointSize": 5,
+              "stacking": {
+                "mode": "none",
+                "group": "A"
+              },
+              "axisLabel": "",
+              "scaleDistribution": {
+                "type": "linear"
+              },
+              "hideFrom": {
+                "legend": false,
+                "tooltip": false,
+                "vis": false
+              }
+            }
+          }
+        },
+        "gridPos": {
+          "h": 8,
+          "w": 24,
+          "x": 0,
+          "y": 24
+        }
+      },
+      {
+        "id": 7,
+        "title": "Evaluation Pass/Fail Timeline",
+        "type": "timeseries",
+        "targets": [
+          {
+            "expr": "rate(evaluation_pass_count[5m])",
+            "legendFormat": "Pass Rate"
+          },
+          {
+            "expr": "rate(evaluation_fail_count[5m])",
+            "legendFormat": "Fail Rate"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "palette-classic"
+            },
+            "custom": {
+              "drawStyle": "line",
+              "lineInterpolation": "linear",
+              "barAlignment": 0,
+              "lineWidth": 2,
+              "fillOpacity": 10,
+              "gradientMode": "none",
+              "spanNulls": false,
+              "showPoints": "auto",
+              "pointSize": 5,
+              "stacking": {
+                "mode": "none",
+                "group": "A"
+              },
+              "axisLabel": "",
+              "scaleDistribution": {
+                "type": "linear"
+              },
+              "hideFrom": {
+                "legend": false,
+                "tooltip": false,
+                "vis": false
+              }
+            }
+          }
+        },
+        "gridPos": {
+          "h": 8,
+          "w": 24,
+          "x": 0,
+          "y": 32
+        }
+      },
+      {
+        "id": 8,
+        "title": "Evaluation Score Heatmap",
+        "type": "heatmap",
+        "targets": [
+          {
+            "expr": "sum(rate(evaluation_score_bucket[5m])) by (le)",
+            "legendFormat": "Score Distribution"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "palette-classic"
+            },
+            "custom": {
+              "hideFrom": {
+                "legend": false,
+                "tooltip": false,
+                "vis": false
+              }
+            }
+          }
+        },
+        "gridPos": {
+          "h": 8,
+          "w": 24,
+          "x": 0,
+          "y": 40
+        }
+      },
+      {
+        "id": 9,
+        "title": "Evaluation Quality Metrics",
+        "type": "table",
+        "targets": [
+          {
+            "expr": "evaluation_count",
+            "legendFormat": "Total Evaluations",
+            "format": "table"
+          },
+          {
+            "expr": "evaluation_pass_count",
+            "legendFormat": "Passed Evaluations",
+            "format": "table"
+          },
+          {
+            "expr": "evaluation_fail_count",
+            "legendFormat": "Failed Evaluations",
+            "format": "table"
+          },
+          {
+            "expr": "rate(evaluation_score_sum[5m]) / rate(evaluation_score_count[5m])",
+            "legendFormat": "Average Score",
+            "format": "table"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "palette-classic"
+            },
+            "custom": {
+              "align": "auto",
+              "displayMode": "auto"
+            }
+          }
+        },
+        "gridPos": {
+          "h": 8,
+          "w": 24,
+          "x": 0,
+          "y": 48
+        }
+      }
+    ],
+    "time": {
+      "from": "now-1h",
+      "to": "now"
+    },
+    "timepicker": {},
+    "templating": {
+      "list": []
+    },
+    "annotations": {
+      "list": []
+    },
+    "refresh": "5s",
+    "schemaVersion": 27,
+    "version": 1,
+    "links": [],
+    "gnetId": null,
+    "uid": "lead-generation-evaluation"
+  }
+} 

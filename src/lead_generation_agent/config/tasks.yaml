@@ -1,0 +1,207 @@
+scrape_leads:
+  description: >
+    "TARGET: Generate EXACTLY {max_leads} HIGH-QUALITY leads using the user's search strategy
+    
+    Your mission is to find and extract exactly {max_leads} high-quality leads that STRONGLY MATCH the user's search criteria.
+    Focus ONLY on prospects that are PERFECTLY RELEVANT to the user's search strategy and target audience.
+    
+    User Input:
+    Search Strategy: {search_strategy}
+    Target Clients: {target_clients}
+    Campaign Agenda: {campaign_agenda}
+    Maximum Leads: {max_leads} (THIS IS YOUR TARGET - DO NOT STOP UNTIL YOU REACH THIS NUMBER)
+    Search Depth: {search_depth}
+
+    CRITICAL REQUIREMENTS:
+    - You MUST generate exactly {max_leads} leads
+    - ONLY include leads that STRONGLY MATCH your search criteria
+    - Each lead must be HIGHLY RELEVANT to the user's search strategy
+    - Do not stop until you have exactly {max_leads} high-quality leads
+    - Track your progress and report how many QUALIFIED leads you have found
+    - Use the search strategy provided by the user
+    - Use multiple search approaches to reach the target
+    - MAINTAIN A RUNNING LIST of all found leads to avoid duplicates
+    
+    QUALITY CRITERIA FOR VALID LEADS:
+    - Lead's role/title must DIRECTLY MATCH the target clients specified
+    - Lead's company/industry must be RELEVANT to the search strategy
+    - Lead must be in a DECISION-MAKING or INFLUENTIAL position
+    - Lead must have a COMPLETE profile with name, company, and title
+    - Lead must be ACTIVE and ENGAGED in their professional role
+    - Lead's background must ALIGN with the campaign agenda
+    
+    SEARCH APPROACHES (Use these systematically with the user's search strategy):
+    1. Direct Search: Use the exact search strategy provided by the user
+    2. Keyword Variations: Modify the search strategy with different keywords
+    3. Industry-Specific: Add industry terms to the search strategy
+    4. Location-Based: Add location terms to the search strategy
+    5. Job Title Focus: Add job title terms to the search strategy
+    6. Company Focus: Add company-specific terms to the search strategy
+    
+    LEAD TRACKING AND DEDUPLICATION:
+    - Maintain a running list of ALL leads found so far
+    - Check each new lead against your existing list to avoid duplicates
+    - Use name + company combination to identify unique leads
+    - Only add leads that are not already in your list
+    - Keep track of total unique leads found across all searches
+    
+    EXECUTION PLAN:
+    1. Initialize an empty list to track all found leads
+    2. Start with the user's search strategy, extract leads, EVALUATE EACH LEAD for quality
+    3. For each lead found, check if it's already in your list (deduplicate)
+    4. Only add NEW, QUALIFIED leads that meet ALL quality criteria
+    5. Count only UNIQUE leads toward your target
+    6. If you haven't reached {max_leads} QUALIFIED leads, try keyword variations
+    7. Continue through all approaches until you have exactly {max_leads} high-quality leads
+    8. After each search, report: "Found X UNIQUE QUALIFIED leads so far, need Y more"
+    9. Do not stop until you have exactly {max_leads} unique leads that meet quality standards
+    
+    LEAD EVALUATION PROCESS:
+    For each potential lead found:
+    - Check if their title/role matches target clients
+    - Verify their company is relevant to search strategy
+    - Ensure they have decision-making authority
+    - Confirm their profile is complete and professional
+    - Check if this lead is already in your running list (deduplicate)
+    - Only include if they meet ALL quality criteria AND are not duplicates
+    
+    PROGRESS TRACKING:
+    - Keep a running count of unique qualified leads
+    - After each search, update your count and report progress
+    - Example: "Search 1: Found 5 new qualified leads. Total: 5/50"
+    - Example: "Search 2: Found 3 new qualified leads. Total: 8/50"
+    - Continue until you reach exactly {max_leads} unique qualified leads
+    
+    OUTPUT FORMAT:
+    Return a JSON array with exactly {max_leads} HIGH-QUALITY lead objects, each containing:
+    - name: Lead's full name
+    - company: Company name
+    - title: Job title
+    - linkedin: LinkedIn profile URL (if available)
+    - email: (leave empty, will be filled by email finder)
+    
+    REMEMBER: Your target is {max_leads} HIGH-QUALITY leads. Do not stop until you reach this number.
+    Only include leads that STRONGLY MATCH your search criteria and meet all quality standards.
+    MAINTAIN YOUR RUNNING LIST of leads to avoid duplicates and track progress accurately.
+    "
+  agent: scraper_agent
+  expected_output: >
+    "JSON array of lead objects with name, email, company, title, and linkedin fields"
+  output_file: >
+    output/scrape_leads.json
+
+find_lead_emails:
+  description: >
+    "Find email addresses for leads using multiple search strategies and sources.
+    For each lead without an email address, search across various online sources to locate their email.
+    
+    SEARCH STRATEGIES:
+    1. Company website search: "[Name] [Company] email" or "[Name] @ [Company]"
+    2. Professional directories: Search for the person on professional platforms
+    3. Social media: Look for contact information on LinkedIn, Twitter, etc.
+    4. Industry directories: Search industry-specific directories and databases
+    5. Conference/event websites: Look for speaker or attendee lists
+    6. Press releases: Search for company press releases mentioning the person
+    7. GitHub/technical profiles: For tech professionals, check GitHub profiles
+    8. LinkedIn Company Page: Search for the person on LinkedIn Company Page
+    9. If email is not found, try to find the email address of the company by searching the company name of the lead
+    
+    INPUT: JSON array of leads with name, company, title, and linkedin fields (email field may be empty)
+    
+    OUTPUT: JSON array of leads with email addresses found and added to each lead object.
+    PRESERVE ALL EXISTING FIELDS: name, company, title, linkedin, and any other fields present.
+    Only add or update the email field. Do not remove or modify any other fields.
+    If no email is found for a lead, keep the email field empty or null.
+    
+    CRITICAL: Maintain all existing data including LinkedIn URLs, titles, and company information.
+    CRITICAL: Do not lose any information from the input leads.
+    
+    IMPORTANT: Use 'Search the internet with Serper' tool to perform searches.
+    IMPORTANT: Focus on finding professional email addresses (company emails preferred over personal).
+    IMPORTANT: Verify email format and validity before including in results.
+    IMPORTANT: Preserve all original lead data while only adding email addresses.
+    "
+  agent: email_finder_agent
+  expected_output: >
+    "JSON array of leads with email addresses found and added to each lead object. All original fields (name, company, title, linkedin) must be preserved."
+  output_file: >
+    output/find_lead_emails.json
+
+validate_lead_emails:
+  description: >  
+    "Validate all lead email addresses for deliverability, spam traps, and quality using EmailListVerify API.
+    
+    INPUT: JSON array of leads with email addresses
+    
+    PROCESS:
+    1. Extract all email addresses from the leads array
+    2. Use the email_validator tool with the 'emails' parameter in JSON format:
+       {
+         \"emails\": \"[\"email1@example.com\", \"email2@example.com\"]\"
+       }
+    3. Process the validation results and update each lead with validation status
+    4. Filter out invalid emails and create a summary
+    
+    IMPORTANT: Use the email_validator tool with ONLY the 'emails' parameter.
+    IMPORTANT: The tool expects a JSON string array of email addresses.
+    IMPORTANT: Wait for the tool response before proceeding.
+    IMPORTANT: Handle both valid and invalid email results properly.
+    "
+  agent: email_validator_agent
+  expected_output: >
+    "JSON object with validated leads array and validation summary. Include all the fields you have in the data."
+  output_file: >
+    output/validate_lead_emails.json
+
+save_data:
+  description: >
+    "CRITICAL: You MUST use the provided tool to save data. DO NOT create fake URLs or pretend to save data.
+    
+    Save leads and validated email data created by your previous agents to Google Sheets.
+    Clean the data before saving it to Google Sheets.
+    You can include all the data when you save but mention email is valid/invalid in the data.
+    Include ALL possible fields you have in the data including name, email, company, title, linkedin, and any validation status.
+
+    User Input:
+    User ID: {user_id}
+    Username: {username}
+    Email: {email}
+    Google Authenticated: {google_authenticated}
+
+    AVAILABLE TOOL (YOU MUST USE THIS):
+    - google_sheets_saver: Use this tool to save lead data to Google Sheets
+
+    MANDATORY STEPS (DO NOT SKIP ANY):
+    1. Fetch the data from the previous agents (leads and validated email data)
+    2. Include ALL the fields you have in the data: name, email, company, title, linkedin, validation_status, etc.
+    3. Clean the data
+    4. MANDATORY: Use the google_sheets_saver tool to save leads data in this format:
+       {
+         "data": "[{\"name\": \"John Doe\", \"email\": \"john@example.com\", \"company\": \"Tech Corp\", \"title\": \"CTO\", \"linkedin\": \"https://linkedin.com/in/johndoe\", \"validation_status\": \"valid\"}]",
+         "sheet_name": "Leads",
+         "user_id": "{user_id}"
+       }
+       CRITICAL: You MUST call this tool and wait for its response. Do not create fake URLs.
+       CRITICAL: Use the user_id from the input data to ensure data is saved to the correct user's account. 
+       CRITICAL: The tool will automatically create a new spreadsheet for each save operation.
+       CRITICAL: The tool parameters are: data, sheet_name, user_id (in that order).
+       CRITICAL: Wait for the tool to return the actual spreadsheet URL before proceeding.
+       CRITICAL: Include ALL fields from your data: name, email, company, title, linkedin, and any other fields present.
+    5. Return ONLY the actual file URL returned by the tool in JSON format
+    
+    CRITICAL RULES:
+    - NEVER create fake URLs or pretend to save data
+    - ALWAYS use the google_sheets_saver tool for Google Sheets
+    - ALWAYS wait for the tool response before proceeding
+    - ONLY return URLs that come from the tool responses
+    - If the tool fails, report the error, do not create fake success
+    - Do not make up or generate fake spreadsheet URLs
+    - ALWAYS include ALL fields from your data including title and linkedin"
+  agent: data_analytics_agent
+  expected_output: >
+    "JSON object with ONLY the actual file URL returned by the google_sheets_saver tool. 
+    Example: {\"sheets_url\": \"https://docs.google.com/spreadsheets/d/...\"}
+    DO NOT create fake URLs. Only return URLs that come from the tool responses."
+  output_file: >
+    output/save_data.json
+

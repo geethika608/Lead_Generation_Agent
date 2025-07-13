@@ -1,0 +1,425 @@
+{
+  "dashboard": {
+    "id": null,
+    "title": "Lead Generation Agent - Business Analytics",
+    "tags": ["lead-generation", "crewai", "leads", "campaigns", "email", "analytics"],
+    "style": "dark",
+    "timezone": "browser",
+    "panels": [
+      {
+        "id": 1,
+        "title": "Lead Generation Overview",
+        "type": "stat",
+        "targets": [
+          {
+            "expr": "leads_found_total",
+            "legendFormat": "Total Leads Found"
+          },
+          {
+            "expr": "leads_valid_total",
+            "legendFormat": "Valid Leads"
+          },
+          {
+            "expr": "leads_invalid_total",
+            "legendFormat": "Invalid Leads"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "palette-classic"
+            },
+            "custom": {
+              "displayMode": "list",
+              "orientation": "horizontal"
+            }
+          }
+        },
+        "gridPos": {
+          "h": 8,
+          "w": 12,
+          "x": 0,
+          "y": 0
+        }
+      },
+      {
+        "id": 2,
+        "title": "Lead Quality Distribution",
+        "type": "piechart",
+        "targets": [
+          {
+            "expr": "leads_valid_total",
+            "legendFormat": "Valid"
+          },
+          {
+            "expr": "leads_invalid_total",
+            "legendFormat": "Invalid"
+          },
+          {
+            "expr": "leads_spam_trap_total",
+            "legendFormat": "Spam Traps"
+          },
+          {
+            "expr": "leads_disposable_total",
+            "legendFormat": "Disposable"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "palette-classic"
+            },
+            "custom": {
+              "hideFrom": {
+                "legend": false,
+                "tooltip": false,
+                "vis": false
+              }
+            }
+          }
+        },
+        "gridPos": {
+          "h": 8,
+          "w": 12,
+          "x": 12,
+          "y": 0
+        }
+      },
+      {
+        "id": 3,
+        "title": "Lead Validation Rate",
+        "type": "gauge",
+        "targets": [
+          {
+            "expr": "leads_valid_total / leads_found_total * 100",
+            "legendFormat": "Validation Rate %"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "min": 0,
+            "max": 100,
+            "unit": "percent",
+            "thresholds": {
+              "steps": [
+                {"color": "red", "value": 0},
+                {"color": "yellow", "value": 60},
+                {"color": "green", "value": 80}
+              ]
+            }
+          }
+        },
+        "gridPos": {
+          "h": 8,
+          "w": 12,
+          "x": 0,
+          "y": 8
+        }
+      },
+      {
+        "id": 4,
+        "title": "Lead Generation Timeline",
+        "type": "timeseries",
+        "targets": [
+          {
+            "expr": "rate(leads_found_total[5m])",
+            "legendFormat": "Leads Found Rate"
+          },
+          {
+            "expr": "rate(leads_valid_total[5m])",
+            "legendFormat": "Valid Leads Rate"
+          },
+          {
+            "expr": "rate(leads_invalid_total[5m])",
+            "legendFormat": "Invalid Leads Rate"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "palette-classic"
+            },
+            "custom": {
+              "drawStyle": "line",
+              "lineInterpolation": "linear",
+              "barAlignment": 0,
+              "lineWidth": 2,
+              "fillOpacity": 10,
+              "gradientMode": "none",
+              "spanNulls": false,
+              "showPoints": "auto",
+              "pointSize": 5,
+              "stacking": {
+                "mode": "none",
+                "group": "A"
+              },
+              "axisLabel": "",
+              "scaleDistribution": {
+                "type": "linear"
+              },
+              "hideFrom": {
+                "legend": false,
+                "tooltip": false,
+                "vis": false
+              }
+            }
+          }
+        },
+        "gridPos": {
+          "h": 8,
+          "w": 24,
+          "x": 0,
+          "y": 16
+        }
+      },
+      {
+        "id": 5,
+        "title": "Email Deliverability Metrics",
+        "type": "stat",
+        "targets": [
+          {
+            "expr": "email_deliverability_rate",
+            "legendFormat": "Deliverability Rate"
+          },
+          {
+            "expr": "rate(email_spam_score_sum[5m]) / rate(email_spam_score_count[5m])",
+            "legendFormat": "Average Spam Score"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "palette-classic"
+            },
+            "custom": {
+              "displayMode": "list",
+              "orientation": "horizontal"
+            }
+          }
+        },
+        "gridPos": {
+          "h": 8,
+          "w": 12,
+          "x": 0,
+          "y": 24
+        }
+      },
+      {
+        "id": 6,
+        "title": "Email Spam Score Distribution",
+        "type": "histogram",
+        "targets": [
+          {
+            "expr": "rate(email_spam_score_bucket[5m])",
+            "legendFormat": "Spam Score"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "min": 0,
+            "max": 10,
+            "custom": {
+              "hideFrom": {
+                "legend": false,
+                "tooltip": false,
+                "vis": false
+              }
+            }
+          }
+        },
+        "gridPos": {
+          "h": 8,
+          "w": 12,
+          "x": 12,
+          "y": 24
+        }
+      },
+      {
+        "id": 7,
+        "title": "Campaign Performance Metrics",
+        "type": "stat",
+        "targets": [
+          {
+            "expr": "campaign_created_total",
+            "legendFormat": "Campaigns Created"
+          },
+          {
+            "expr": "campaign_issues_total",
+            "legendFormat": "Campaign Issues"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "palette-classic"
+            },
+            "custom": {
+              "displayMode": "list",
+              "orientation": "horizontal"
+            }
+          }
+        },
+        "gridPos": {
+          "h": 8,
+          "w": 12,
+          "x": 0,
+          "y": 32
+        }
+      },
+      {
+        "id": 8,
+        "title": "Lead Quality Trends",
+        "type": "timeseries",
+        "targets": [
+          {
+            "expr": "rate(leads_valid_total[5m]) / rate(leads_found_total[5m]) * 100",
+            "legendFormat": "Lead Quality %"
+          },
+          {
+            "expr": "rate(leads_spam_trap_total[5m]) / rate(leads_found_total[5m]) * 100",
+            "legendFormat": "Spam Trap %"
+          },
+          {
+            "expr": "rate(leads_disposable_total[5m]) / rate(leads_found_total[5m]) * 100",
+            "legendFormat": "Disposable %"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "unit": "percent",
+            "color": {
+              "mode": "palette-classic"
+            },
+            "custom": {
+              "drawStyle": "line",
+              "lineInterpolation": "linear",
+              "barAlignment": 0,
+              "lineWidth": 2,
+              "fillOpacity": 10,
+              "gradientMode": "none",
+              "spanNulls": false,
+              "showPoints": "auto",
+              "pointSize": 5,
+              "stacking": {
+                "mode": "none",
+                "group": "A"
+              },
+              "axisLabel": "",
+              "scaleDistribution": {
+                "type": "linear"
+              },
+              "hideFrom": {
+                "legend": false,
+                "tooltip": false,
+                "vis": false
+              }
+            }
+          }
+        },
+        "gridPos": {
+          "h": 8,
+          "w": 12,
+          "x": 12,
+          "y": 32
+        }
+      },
+      {
+        "id": 9,
+        "title": "Business Analytics Summary",
+        "type": "table",
+        "targets": [
+          {
+            "expr": "leads_found_total",
+            "legendFormat": "Total Leads",
+            "format": "table"
+          },
+          {
+            "expr": "leads_valid_total",
+            "legendFormat": "Valid Leads",
+            "format": "table"
+          },
+          {
+            "expr": "leads_valid_total / leads_found_total * 100",
+            "legendFormat": "Validation Rate %",
+            "format": "table"
+          },
+          {
+            "expr": "email_deliverability_rate",
+            "legendFormat": "Email Deliverability %",
+            "format": "table"
+          },
+          {
+            "expr": "rate(email_spam_score_sum[5m]) / rate(email_spam_score_count[5m])",
+            "legendFormat": "Avg Spam Score",
+            "format": "table"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "palette-classic"
+            },
+            "custom": {
+              "align": "auto",
+              "displayMode": "auto"
+            }
+          }
+        },
+        "gridPos": {
+          "h": 8,
+          "w": 24,
+          "x": 0,
+          "y": 40
+        }
+      },
+      {
+        "id": 10,
+        "title": "Lead Quality Heatmap",
+        "type": "heatmap",
+        "targets": [
+          {
+            "expr": "sum(rate(leads_found_total[5m]))",
+            "legendFormat": "Lead Generation Activity"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "palette-classic"
+            },
+            "custom": {
+              "hideFrom": {
+                "legend": false,
+                "tooltip": false,
+                "vis": false
+              }
+            }
+          }
+        },
+        "gridPos": {
+          "h": 8,
+          "w": 24,
+          "x": 0,
+          "y": 48
+        }
+      }
+    ],
+    "time": {
+      "from": "now-1h",
+      "to": "now"
+    },
+    "timepicker": {},
+    "templating": {
+      "list": []
+    },
+    "annotations": {
+      "list": []
+    },
+    "refresh": "5s",
+    "schemaVersion": 27,
+    "version": 1,
+    "links": [],
+    "gnetId": null,
+    "uid": "lead-generation-analytics"
+  }
+} 

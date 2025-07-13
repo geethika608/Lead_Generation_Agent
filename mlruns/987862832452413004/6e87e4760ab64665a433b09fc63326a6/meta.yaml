@@ -1,0 +1,14 @@
+artifact_uri: mlflow-artifacts:/987862832452413004/6e87e4760ab64665a433b09fc63326a6/artifacts
+end_time: null
+entry_point_name: ''
+experiment_id: '987862832452413004'
+lifecycle_stage: active
+run_id: 6e87e4760ab64665a433b09fc63326a6
+run_name: lead-generation-20250713-182526
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1752411329997
+status: 1
+tags: []
+user_id: geethika

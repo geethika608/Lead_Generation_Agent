@@ -1,0 +1,13 @@
+gradio
+crewai
+crewai-tools
+pydantic
+python-dotenv
+bcrypt
+requests
+google-auth
+google-auth-oauthlib
+google-api-python-client
+prometheus-client
+deepeval
+mlflow

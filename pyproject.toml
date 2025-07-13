@@ -1,0 +1,37 @@
+[project]
+name = "lead_generation_agent"
+version = "0.1.0"
+description = "Lead_Generation_Agent using crewAI"
+authors = [{ name = "Your Name", email = "you@example.com" }]
+requires-python = ">=3.10,<3.14"
+dependencies = [
+    "bcrypt>=4.3.0",
+    "crewai-tools>=0.51.1",
+    "crewai[tools]>=0.141.0,<1.0.0",
+    "deepeval>=3.2.5",
+    "google-api-python-client>=2.176.0",
+    "google-auth>=2.40.3",
+    "google-auth-oauthlib>=1.2.2",
+    "gradio>=5.36.2",
+    "mlflow>=3.1.1",
+    "prometheus-client>=0.22.1",
+    "pydantic[email]>=2.11.7",
+    "python-dotenv>=1.1.1",
+    "requests>=2.32.4",
+    "selenium>=4.34.2",
+    "webdriver-manager>=4.0.2",
+]
+
+[project.scripts]
+lead_generation_agent = "lead_generation_agent.main:run"
+run_crew = "lead_generation_agent.main:run"
+train = "lead_generation_agent.main:train"
+replay = "lead_generation_agent.main:replay"
+test = "lead_generation_agent.main:test"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.crewai]
+type = "crew"

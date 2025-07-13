@@ -1,0 +1,18 @@
+# Default configuration for Lead Generation Agent
+# This file contains non-sensitive configuration settings
+
+# Lead generation settings
+max_leads_per_search: 50
+search_depth: 3
+
+# Email settings
+email:
+  enable_spam_checking: true
+
+# Analytics and monitoring
+analytics:
+  enable_prometheus: true
+
+# Evaluation settings
+evaluation:
+  enable_deepeval: true 
