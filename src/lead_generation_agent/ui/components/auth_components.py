@@ -34,6 +34,7 @@ class AuthComponents:
                 
                 with gr.Column(scale=1):
                     with gr.Group():
+                        gr.HTML('<form autocomplete="on">')
                         username_input = gr.Textbox(
                             label="Username or Email",
                             placeholder="Enter your username or email",
@@ -50,6 +51,7 @@ class AuthComponents:
                             elem_id="login_password",
                             elem_classes=["login-field"]
                         )
+                        gr.HTML('</form>')
                         
                         remember_me = gr.Checkbox(
                             label="Remember me (30 days)",

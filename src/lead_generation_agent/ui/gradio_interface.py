@@ -114,6 +114,102 @@ class LeadGenerationInterface:
                 margin: 10px 0;
             }
             """,
+            js="""
+            function() {
+                // Force browser autofill detection for login fields
+                function triggerAutofill() {
+                    console.log('Triggering autofill detection...');
+                    
+                    // Find login fields
+                    const usernameField = document.querySelector('#login_username input');
+                    const passwordField = document.querySelector('#login_password input');
+                    
+                    if (usernameField && passwordField) {
+                        console.log('Login fields found, triggering autofill...');
+                        
+                        // Set proper attributes for login fields
+                        usernameField.setAttribute('autocomplete', 'username');
+                        usernameField.setAttribute('name', 'username');
+                        usernameField.setAttribute('type', 'text');
+                        
+                        passwordField.setAttribute('autocomplete', 'current-password');
+                        passwordField.setAttribute('name', 'password');
+                        passwordField.setAttribute('type', 'password');
+                        
+                        // Create a temporary form to trigger autofill
+                        const tempForm = document.createElement('form');
+                        tempForm.setAttribute('autocomplete', 'on');
+                        tempForm.style.display = 'none';
+                        
+                        const tempUsername = usernameField.cloneNode(true);
+                        const tempPassword = passwordField.cloneNode(true);
+                        
+                        tempForm.appendChild(tempUsername);
+                        tempForm.appendChild(tempPassword);
+                        document.body.appendChild(tempForm);
+                        
+                        // Focus and blur to trigger autofill detection
+                        tempUsername.focus();
+                        tempUsername.blur();
+                        tempPassword.focus();
+                        tempPassword.blur();
+                        
+                        // Remove temporary form
+                        setTimeout(() => {
+                            document.body.removeChild(tempForm);
+                        }, 100);
+                        
+                        console.log('Autofill detection triggered');
+                    } else {
+                        console.log('Login fields not found yet, retrying...');
+                        // Retry after a short delay
+                        setTimeout(triggerAutofill, 500);
+                    }
+                }
+                
+                // Trigger autofill detection when page loads
+                window.addEventListener('load', function() {
+                    setTimeout(triggerAutofill, 1000);
+                });
+                
+                // Also trigger when DOM is ready
+                if (document.readyState === 'loading') {
+                    document.addEventListener('DOMContentLoaded', function() {
+                        setTimeout(triggerAutofill, 1000);
+                    });
+                } else {
+                    setTimeout(triggerAutofill, 1000);
+                }
+                
+                // Trigger autofill when switching to login tab
+                document.addEventListener('click', function(e) {
+                    if (e.target && e.target.textContent && e.target.textContent.includes('Login')) {
+                        setTimeout(triggerAutofill, 100);
+                    }
+                });
+                
+                // Monitor for tab changes
+                const observer = new MutationObserver(function(mutations) {
+                    mutations.forEach(function(mutation) {
+                        if (mutation.type === 'childList') {
+                            // Check if login tab is now visible
+                            const loginTab = document.querySelector('[data-testid="tab-0"]');
+                            if (loginTab && loginTab.getAttribute('aria-selected') === 'true') {
+                                setTimeout(triggerAutofill, 100);
+                            }
+                        }
+                    });
+                });
+                
+                // Start observing
+                setTimeout(() => {
+                    const tabsContainer = document.querySelector('[data-testid="tabs"]');
+                    if (tabsContainer) {
+                        observer.observe(tabsContainer, { childList: true, subtree: true });
+                    }
+                }, 2000);
+            }
+            """,
         ) as interface:
             
             # Create session components with BrowserState
