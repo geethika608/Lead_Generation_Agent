@@ -34,24 +34,18 @@ class AuthComponents:
                 
                 with gr.Column(scale=1):
                     with gr.Group():
-                        gr.HTML('<form autocomplete="on">')
                         username_input = gr.Textbox(
                             label="Username or Email",
                             placeholder="Enter your username or email",
-                            scale=2,
-                            elem_id="login_username",
-                            elem_classes=["login-field"]
+                            scale=2
                         )
                         
                         password_input = gr.Textbox(
                             label="Password",
                             placeholder="Enter your password",
                             type="password",
-                            scale=2,
-                            elem_id="login_password",
-                            elem_classes=["login-field"]
+                            scale=2
                         )
-                        gr.HTML('</form>')
                         
                         remember_me = gr.Checkbox(
                             label="Remember me (30 days)",
@@ -81,38 +75,31 @@ class AuthComponents:
                 
                 with gr.Column(scale=1):
                     with gr.Group():
+                        
                         username_input = gr.Textbox(
                             label="Username",
                             placeholder="Choose a username (3+ characters, alphanumeric only)",
-                            scale=2,
-                            elem_id="register_username",
-                            elem_classes=["no-autocomplete"]
+                            scale=2
                         )
                         
                         email_input = gr.Textbox(
                             label="Email Address",
                             placeholder="Enter your email address",
-                            scale=2,
-                            elem_id="register_email",
-                            elem_classes=["no-autocomplete"]
+                            scale=2
                         )
                         
                         password_input = gr.Textbox(
                             label="Password",
                             placeholder="Enter a strong password (8+ characters)",
                             type="password",
-                            scale=2,
-                            elem_id="register_password",
-                            elem_classes=["new-password"]
+                            scale=2
                         )
                         
                         confirm_password_input = gr.Textbox(
                             label="Confirm Password",
                             placeholder="Confirm your password",
                             type="password",
-                            scale=2,
-                            elem_id="register_confirm_password",
-                            elem_classes=["new-password"]
+                            scale=2
                         )
                         
                         with gr.Row():
