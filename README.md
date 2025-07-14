@@ -16,7 +16,7 @@ The Lead Generation Agent is an intelligent system that:
 - **🔍 Finds Leads**: Searches LinkedIn and other platforms for potential leads
 - **📧 Finds Emails**: Discovers email addresses for each lead
 - **✅ Validates Emails**: Checks email deliverability and quality
-- **📊 Analyzes Data**: Organizes and stores campaign data with insights
+- **📊 Analyzes Data**: Organizes and stores lead data with insights
 - **📈 Tracks Progress**: Provides real-time analytics and monitoring
 - **🔗 Integrates**: Saves data to Google Workspace (Sheets & Docs)
 
@@ -31,7 +31,7 @@ The Lead Generation Agent is an intelligent system that:
 - **Real-time Analytics Dashboard** with live metrics
 - **Lead Quality Scoring** and performance insights
 - **Email Deliverability Analysis** with spam score detection
-- **Campaign Performance Tracking**
+- **Lead Generation Performance Tracking**
 
 ### 🔧 Enterprise Features
 - **User Authentication System** with secure login/registration
@@ -190,14 +190,14 @@ See [Google Workspace Setup Guide](docs/GOOGLE_WORKSPACE_SETUP.md) for detailed 
 2. **Connect your Google account** (optional but recommended)
 3. **Configure your API keys** in the settings
 
-### 2. Create a Lead Generation Campaign
+### 2. Generate Leads
 1. **Navigate to the Lead Generation tab**
 2. **Enter your search criteria**:
    - Industry/Company type
    - Job titles or roles
    - Location preferences
    - Company size
-3. **Set campaign parameters**:
+3. **Set lead generation parameters**:
    - Number of leads to find
    - Search depth
    - Quality filters
@@ -242,7 +242,7 @@ See [Google Workspace Setup Guide](docs/GOOGLE_WORKSPACE_SETUP.md) for detailed 
 - **Output**: Quality score and validation status
 
 ### 4. **Data Analytics Agent** 📊
-- **Purpose**: Organizes and analyzes campaign data
+- **Purpose**: Organizes and analyzes lead data
 - **Capabilities**:
   - Categorizes leads by quality
   - Generates insights and reports
@@ -261,7 +261,7 @@ See [Google Workspace Setup Guide](docs/GOOGLE_WORKSPACE_SETUP.md) for detailed 
 ### Business Intelligence
 - **Lead Quality Metrics**: High-quality vs low-quality leads
 - **Email Deliverability**: Spam scores and recommendations
-- **Campaign Performance**: Success rates and ROI indicators
+- **Lead Generation Performance**: Success rates and efficiency indicators
 - **Trend Analysis**: Historical performance data
 
 ### Monitoring Tools
@@ -335,18 +335,6 @@ The project includes several convenient commands for different use cases:
 ```bash
 # Main application commands
 crewai run                    # Launch the main application
-```
-
-# Development commands
-python -m src.lead_generation_agent.main:train    # Train the model (placeholder)
-python -m src.lead_generation_agent.main:replay   # Replay previous runs (placeholder)
-python -m src.lead_generation_agent.main:test     # Run tests (placeholder)
-
-# Package management with uv
-uv sync                      # Install dependencies
-uv add package_name          # Add new dependency
-uv remove package_name       # Remove dependency
-uv run python script.py      # Run script in virtual environment
 ```
 
 ### Running Tests
@@ -441,6 +429,40 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - [ ] **Multi-language Support** for global campaigns
 - [ ] **Advanced Lead Scoring** with ML models
 - [ ] **Team Collaboration** features
+
+### 🚀 Campaign Management Features (Future Scope)
+
+#### 📧 Email Campaign Creation
+- **Campaign Builder**: Drag-and-drop email campaign creation interface
+- **Template Library**: Pre-built email templates for different industries and use cases
+- **Custom Templates**: Create and save personalized email templates
+- **Dynamic Content**: Insert lead-specific information (name, company, role) into templates
+- **A/B Testing**: Test different subject lines, content, and send times
+- **Campaign Scheduling**: Schedule campaigns for optimal delivery times
+
+#### 📨 High-Deliverability Email Sending
+- **SMTP Integration**: Connect multiple email providers (Gmail, Outlook, custom SMTP)
+- **Email Authentication**: SPF, DKIM, and DMARC setup for better deliverability
+- **Warm-up Sequences**: Gradual email volume increase to build sender reputation
+- **Bounce Management**: Automatic handling of hard and soft bounces
+- **Spam Score Optimization**: AI-powered content optimization to reduce spam scores
+- **Rate Limiting**: Intelligent sending rates to avoid being flagged as spam
+
+#### 📊 Campaign Analytics & Tracking
+- **Open Rate Tracking**: Monitor email open rates and engagement
+- **Click-through Rates**: Track link clicks and user interactions
+- **Response Tracking**: Monitor replies and engagement metrics
+- **Conversion Tracking**: Track leads through the sales funnel
+- **Campaign Performance**: Compare different campaigns and strategies
+- **ROI Analytics**: Measure campaign effectiveness and return on investment
+
+#### 🎯 Advanced Campaign Features
+- **Segmentation**: Group leads by industry, role, company size, or engagement level
+- **Personalization**: AI-powered content personalization based on lead data
+- **Follow-up Sequences**: Automated follow-up emails based on engagement
+- **Lead Nurturing**: Multi-touch email sequences to nurture prospects
+- **Integration with Lead Data**: Seamless connection between generated leads and campaigns
+- **Campaign Templates**: Industry-specific campaign templates and best practices
 
 ### Version History
 - **v0.1.0** - Initial release with core functionality
